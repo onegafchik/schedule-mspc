@@ -12,9 +12,9 @@ export class MSPCBot {
     public constructor(private readonly apiToken: string) {
         try {
             this.bot = new Bot<BotContext>(apiToken)
-        } catch (error: unknown) {
+        } catch (error) {
             if (error instanceof GrammyError) {
-                console.log("RAR")
+                console.log("Error in launching the bot")
                 return
             }
         }
@@ -50,7 +50,7 @@ export class MSPCBot {
         )
 
         this.bot.catch((botError: BotError<BotContext>) => {
-            const error: unknown = botError.error
+            const error = botError.error
 
             if (error instanceof GrammyError) {
                 console.log(`Bot error: ${error.message}`)

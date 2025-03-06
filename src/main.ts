@@ -7,7 +7,7 @@ import { scheduleJob } from "node-schedule"
 import { range } from "./utils"
 
 class App {
-    private static instance: App | undefined = undefined
+    private static instance: App | undefined
 
     private readonly timezone: string = "Europe/Minsk"
 
