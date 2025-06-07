@@ -1,4 +1,4 @@
-import { Bot, BotError, Context, GrammyError, HttpError, session } from "grammy"
+import { Bot, BotError, Context, session } from "grammy"
 import { BotContext } from "./types"
 import { freeStorage } from "@grammyjs/storage-free"
 import { limit } from "@grammyjs/ratelimiter"
@@ -12,11 +12,9 @@ export class MSPCBot {
     public constructor(private readonly apiToken: string) {
         try {
             this.bot = new Bot<BotContext>(apiToken)
-        } catch (error) {
-            if (error instanceof GrammyError) {
-                console.log("Error in launching the bot")
-                return
-            }
+        } catch {
+            console.log("Error in launching the bot")
+            return
         }
 
         this.bot
@@ -50,23 +48,11 @@ export class MSPCBot {
         )
 
         this.bot.catch((botError: BotError<BotContext>) => {
-            const error = botError.error
-
-            if (error instanceof GrammyError) {
-                console.log(`Bot error: ${error.message}`)
-            } else if (error instanceof HttpError) {
-                console.log(`Could not contact with Telegram: ${error.message}`)
-            } else {
-                console.log(error)
-            }
+            console.log(botError.error)
         })
     }
 
     public start(): void {
         this.bot.start()
-    }
-
-    public stop(): void {
-        this.bot.stop()
     }
 }
